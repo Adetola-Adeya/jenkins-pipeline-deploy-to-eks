@@ -17,7 +17,7 @@ pipeline {
                 }
             }
         }
-        stage("deploy socks && web ]") {
+        stage("deploy socks && web") {
             steps {
                 script {
                     dir('jenkins-pipeline-deploy-to-eks/deployment-for-both-apps') {
@@ -28,7 +28,7 @@ pipeline {
                 }
             }
         }
-        stage("deploy socks && web ]") {
+        stage("monitoring for both apps") {
             steps {
                 script {
                     dir('jenkins-pipeline-deploy-to-eks/monitoring-logging') {
