@@ -14,7 +14,7 @@ terraform {
 
 
 data "aws_eks_cluster" "oneapp" {
-  name = "socks-oneapp"
+  name = "oneapp"
 }
 
 provider "kubernetes" {
