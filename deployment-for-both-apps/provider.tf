@@ -3,6 +3,11 @@ provider "aws" {
   
 }
 
+data "aws_eks_cluster" "oneapp" {
+  name = "oneapp"
+}
+
+
 terraform {
   required_providers {
     kubectl = {
@@ -12,13 +17,7 @@ terraform {
   }
 }
 
-provider "kubernetes" {
-  config_path = "~/.kube/config"
-}
 
-data "aws_eks_cluster" "oneapp" {
-  name = "oneapp"
-}
 
 data "aws_eks_cluster_auth" "oneapp" {
   name = "oneapp"
