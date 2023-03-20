@@ -3,10 +3,24 @@ provider "aws" {
   # other provider settings here
 }
 
-
-
+terraform {
+  required_providers {
+    kubernetes = {
+      source  = "hashicorp/kubernetes"
+      version = ">= 2.0.0"
+    }
+  }
+}
+provider "kubernetes" {
+  config_path = "~/.kube/config"
+}
 
 data "aws_eks_cluster" "oneapp" {
+  name = "oneapp"
+}
+
+
+data "aws_eks_cluster_auth" "oneapp" {
   name = "oneapp"
 }
 
@@ -33,11 +47,6 @@ provider "kubernetes" {
 }
 
 # Kubectl provider configuration
-
-
-data "aws_eks_cluster_auth" "oneapp" {
-  name = "oneapp"
-}
 
 provider "kubectl" {
   load_config_file  = false
