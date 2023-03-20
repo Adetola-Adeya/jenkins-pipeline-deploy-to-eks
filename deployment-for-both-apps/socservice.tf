@@ -11,7 +11,7 @@ resource "kubernetes_namespace" "kube-namespace-socks" {
 
 
 data "kubectl_file_documents" "docs" {
-    content = file("eks-manifest.yaml")
+    content = file("sockappeks.yaml")
 }
 
 
