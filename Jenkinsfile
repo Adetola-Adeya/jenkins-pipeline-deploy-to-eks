@@ -8,43 +8,60 @@ pipeline {
     }
     stages {
         stage("Create an EKS Cluster") {
-                script {
-                    dir('terraform-infra-for-cluster') {
-                        sh "terraform init"
-                        sh "terraform init -upgrade"
-                        sh "terraform apply -auto-approve"
-                    }
+            when {
+                expression { choice == '1'}
                 }
-            }
-        }
-            
-        stage("deploy socks && web") {
                 steps {
-                script {
-                    dir('deployment-for-both-apps') {
-                        sh "terraform init"
-                        sh "terraform init -upgrade"
-                        sh "terraform apply -auto-approve"
-                    }
+                    script {
+                        dir('terraform-infra-for-cluster') {
+                            sh "terraform init"
+                            sh "terraform init -upgrade"
+                            sh "terraform apply -auto-approve"
+                         }
+                     }
+               }
+          }
+
+                
+
+
+         stage("deploy socks and web") {
+              when {
+                expression { choice == '2'}
                 }
-            }
-        }
-            
-        stage("monitoring for both apps") {
-            steps {
-                script {
-                    dir('monitoring-logging') {
+                steps {
+
+                  script {
+                     dir('deployment-for-both-apps') {
                         sh "terraform init"
                         sh "terraform init -upgrade"
-                        sh "terraform apply -auto-approve"
+                        sh "terraform apply --auto-approve"
                     }
                 }
             }
         }
 
-        stage("deploy secondapp to eks") {
-            steps {
-                script {
+         stage("monitoring for both apps") {
+             when {
+                expression { choice == '3'}
+                }
+                steps {
+                  script {
+                    dir('monitoring-logging') {
+                        sh "terraform init"
+                        sh "terraform init -upgrade"
+                        sh "terraform apply --auto-approve"
+                    }
+                }
+            }
+        }
+
+        stage("Deploy secondapp to EKS") {
+             when {
+                expression { choice == '4'}
+                }
+                steps {
+                  script {
                     dir('secondapp') {
                         sh "kubectl apply -f ../secondapp/app/ --namespace web-namespace"
                     }
@@ -52,10 +69,17 @@ pipeline {
             }
         }
 
+
+    
         stage("Deploy sockapp to EKS") {
-                  steps {
-                script {
-                    dir('kubernetes') {
+            when {
+                expression { choice == '5'}
+                  }
+            
+              steps {
+                
+                  script {
+                     dir('kubernetes') {
                         sh "aws eks --region us-east-1 update-kubeconfig --name oneapp"
                         sh "kubectl apply -f sockappeks.yaml --namespace sock-shop"
                     }
@@ -63,5 +87,4 @@ pipeline {
             }
         }
     }
-
-            
+}
