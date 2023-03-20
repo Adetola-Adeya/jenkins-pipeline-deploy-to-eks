@@ -35,27 +35,27 @@ pipeline {
             }
         }
 
-         stage("monitoring for both apps") {
-                steps {
-                  script {
-                    dir('monitoring-logging') {
-                        sh "terraform init"
-                        sh "terraform init -upgrade"
-                        sh "terraform apply --auto-approve"
-                    }
-                }
-            }
-        }
+ //        stage("monitoring for both apps") {
+   //             steps {
+     //             script {
+         //           dir('monitoring-logging') {
+       //                 sh "terraform init"
+     //                   sh "terraform init -upgrade"
+   //                     sh "terraform apply --auto-approve"
+//                    }
+//                }
+//            }
+//        }
 
-        stage("Deploy secondapp to EKS") {
-                steps {
-                  script {
-                    dir('secondapp') {
-                        sh "kubectl apply -f ../secondapp/app/ --namespace web-namespace"
-                    }
-                }
-            }
-        }
+//        stage("Deploy secondapp to EKS") {
+//                steps {
+//                  script {
+//                    dir('secondapp') {
+//                        sh "kubectl apply -f ../secondapp/app/ --namespace web-namespace"
+//                    }
+//                }
+//            }
+//        }
 
 
     
