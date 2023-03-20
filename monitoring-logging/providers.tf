@@ -25,6 +25,7 @@ terraform {
 }
 
 
+
 # Kubernetes provider configuration
 
 # Retrieve eks cluster using data source
@@ -63,7 +64,7 @@ data "aws_eks_cluster_auth" "eks-token" {
   name = "oneapp"
 }
 
-# Heml provider configuration
+# Helm provider configuration
 
 provider "helm" {
   kubernetes {

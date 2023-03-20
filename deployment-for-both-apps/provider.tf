@@ -3,11 +3,6 @@ provider "aws" {
   
 }
 
-
-data "aws_eks_cluster" "oneapp" {
-  name = "oneapp"
-}
-
 terraform {
   required_providers {
     kubectl = {
@@ -18,6 +13,9 @@ terraform {
 }
 
 
+data "aws_eks_cluster" "oneapp" {
+  name = "socks-oneapp"
+}
 
 provider "kubernetes" {
   host                   = data.aws_eks_cluster.oneapp.endpoint

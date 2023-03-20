@@ -8,28 +8,55 @@ pipeline {
     }
     stages {
         stage("Create an EKS Cluster") {
-            steps {
+            when {
+                expression { choice == '1'}
+                }
+                steps {
                 script {
-                    dir('jenkins-pipeline-deploy-to-eks/terraform-infra-for-cluster') {
+                    dir('terraform-infra-for-cluster') {
                         sh "terraform init"
+                        sh "terraform init -upgrade"
                         sh "terraform apply -auto-approve"
                     }
                 }
             }
         }
+            
         stage("deploy socks && web") {
-            steps {
+            when {
+                expression { choice == '2'}
+                }
+                steps {
                 script {
-                    dir('jenkins-pipeline-deploy-to-eks/deployment-for-both-apps') {
+                    dir('deployment-for-both-apps') {
                         sh "terraform init"
                         sh "terraform init -upgrade"
-                        sh "terraform apply -auto-approve -force"
+                        sh "terraform apply -auto-approve"
                     }
                 }
             }
         }
+            
         stage("monitoring for both apps") {
+            when {
+                expression { choice == '3'}
+                }
             steps {
+                script {
+                    dir('monitoring-logging') {
+                        sh "terraform init"
+                        sh "terraform init -upgrade"
+                        sh "terraform apply -auto-approve"
+                    }
+                }
+            }
+        }
+
+        stage("monitoring for both apps") {
+            when {
+                expression { choice == '4'}
+                  }
+                  steps {
                 script {
                     dir('jenkins-pipeline-deploy-to-eks/monitoring-logging') {
                         sh "terraform init"
@@ -39,9 +66,13 @@ pipeline {
                 }
             }
         }
+            
 
         stage("Deploy to EKS") {
-            steps {
+            when {
+                expression { choice == '5'}
+                  }
+                  steps {
                 script {
                     dir('jenkins-pipeline-deploy-to-eks') {
                         sh "aws eks --region us-east-1 update-kubeconfig --name oneapp"
@@ -53,3 +84,4 @@ pipeline {
         }
     }
 }
+            
