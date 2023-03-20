@@ -8,6 +8,7 @@ pipeline {
     }
     stages {
         stage("Create an EKS Cluster") {
+            steps {
                     script {
                         dir('terraform-infra-for-cluster') {
                             sh "terraform init"
