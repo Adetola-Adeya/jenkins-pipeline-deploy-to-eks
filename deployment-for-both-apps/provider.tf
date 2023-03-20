@@ -48,3 +48,9 @@ provider "kubectl" {
     command     = "aws"
   }
 }
+
+resource "kubernetes_namespace" "kube-namespace-socks" {
+  metadata {
+    name = "sock-shop"
+  }
+}
