@@ -59,7 +59,7 @@ pipeline {
             steps {
                 script {
                     dir('secondapp') {
-                        sh "kubectl apply -f ../../secondapp/ --namespace web-namespace"
+                        sh "kubectl apply -f ../secondapp/app/ --namespace web-namespace"
                     }
                 }
             }
