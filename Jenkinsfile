@@ -52,32 +52,28 @@ pipeline {
             }
         }
 
-        stage("monitoring for both apps") {
+        stage("deploy secondapp to eks") {
             when {
                 expression { choice == '4'}
-                  }
-                  steps {
+                }
+            steps {
                 script {
-                    dir('jenkins-pipeline-deploy-to-eks/monitoring-logging') {
-                        sh "terraform init"
-                        sh "terraform init -upgrade"
-                        sh "terraform apply -auto-approve -force"
+                    dir('secondapp') {
+                        sh "kubectl apply -f ../../secondapp/ --namespace web-namespace"
                     }
                 }
             }
         }
-            
 
-        stage("Deploy to EKS") {
+        stage("Deploy sockapp to EKS") {
             when {
                 expression { choice == '5'}
                   }
                   steps {
                 script {
-                    dir('jenkins-pipeline-deploy-to-eks') {
+                    dir('kubernetes') {
                         sh "aws eks --region us-east-1 update-kubeconfig --name oneapp"
                         sh "kubectl apply -f sockappeks.yaml --namespace sock-shop"
-                        sh "kubectl apply -f ../jenkins-pipeline-deploy-to-eks/secondapp/ --namespace web-namespace"
                     }
                 }
             }
