@@ -12,8 +12,15 @@ terraform {
   }
 }
 
+provider "kubernetes" {
+  config_path = "~/.kube/config"
+}
 
 data "aws_eks_cluster" "oneapp" {
+  name = "oneapp"
+}
+
+data "aws_eks_cluster_auth" "oneapp" {
   name = "oneapp"
 }
 
@@ -42,5 +49,11 @@ provider "kubectl" {
     api_version = "client.authentication.k8s.io/v1beta1"
     args        = ["eks", "get-token", "--cluster-name", data.aws_eks_cluster.oneapp.name]
     command     = "aws"
+  }
+}
+
+resource "kubernetes_namespace" "kube-namespace-socks" {
+  metadata {
+    name = "sock-shop"
   }
 }
