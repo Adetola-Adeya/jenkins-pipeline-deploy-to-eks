@@ -8,10 +8,6 @@ pipeline {
     }
     stages {
         stage("Create an EKS Cluster") {
-            when {
-                expression { choice == '1'}
-                }
-                steps {
                     script {
                         dir('terraform-infra-for-cluster') {
                             sh "terraform init"
@@ -26,9 +22,6 @@ pipeline {
 
 
          stage("deploy socks and web") {
-              when {
-                expression { choice == '2'}
-                }
                 steps {
 
                   script {
@@ -42,9 +35,6 @@ pipeline {
         }
 
          stage("monitoring for both apps") {
-             when {
-                expression { choice == '3'}
-                }
                 steps {
                   script {
                     dir('monitoring-logging') {
@@ -57,9 +47,6 @@ pipeline {
         }
 
         stage("Deploy secondapp to EKS") {
-             when {
-                expression { choice == '4'}
-                }
                 steps {
                   script {
                     dir('secondapp') {
@@ -72,12 +59,7 @@ pipeline {
 
     
         stage("Deploy sockapp to EKS") {
-            when {
-                expression { choice == '5'}
-                  }
-            
               steps {
-                
                   script {
                      dir('kubernetes') {
                         sh "aws eks --region us-east-1 update-kubeconfig --name oneapp"
@@ -87,4 +69,3 @@ pipeline {
             }
         }
     }
-}
