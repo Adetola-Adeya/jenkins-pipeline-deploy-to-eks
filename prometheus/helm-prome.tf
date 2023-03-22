@@ -1,12 +1,12 @@
 data "aws_eks_node_group" "eks-node-group" {
-  cluster_name = "demo"
+  cluster_name = "oneapp"
   node_group_name = "private-nodes"
 }
 
 resource "time_sleep" "wait_for_kubernetes" {
 
     depends_on = [
-        data.aws_eks_cluster.demo
+        data.aws_eks_cluster.oneapp
     ]
 
     create_duration = "20s"

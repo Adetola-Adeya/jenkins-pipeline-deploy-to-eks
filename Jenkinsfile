@@ -10,7 +10,7 @@ pipeline {
             steps {
                 script {
                     dir('nginx-controller') {
-                       sh "aws eks --region us-east-1 update-kubeconfig --name demo"
+                       sh "aws eks --region us-east-1 update-kubeconfig --name oneapp"
                         sh "terraform init"
                         sh "terraform apply -auto-approve"
                     }

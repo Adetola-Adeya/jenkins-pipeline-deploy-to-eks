@@ -8,7 +8,7 @@ metadata:
    # nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
-  - host: sock-app.nwokolo.live
+  - host: sock-app.detolamain.studio
     http:
       path:
         backend:
@@ -27,7 +27,7 @@ metadata:
     kubernetes.io/ingress.class: nginx 
 spec:
   rules:
-  - host: voting.nwokolo.live
+  - host: webapp.detolamain.studio
     http:
       path:
         backend:

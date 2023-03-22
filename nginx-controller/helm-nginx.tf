@@ -1,7 +1,7 @@
 resource "time_sleep" "wait_for_kubernetes" {
 
     depends_on = [
-        data.aws_eks_cluster.demo
+        data.aws_eks_cluster.oneapp
     ]
 
     create_duration = "20s"

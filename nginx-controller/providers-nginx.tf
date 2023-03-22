@@ -18,11 +18,11 @@ terraform {
 }
 
 
-data "aws_eks_cluster" "demo" {
-  name = "demo"
+data "aws_eks_cluster" "oneapp" {
+  name = "oneapp"
 }
-data "aws_eks_cluster_auth" "demo_auth" {
-  name = "demo_auth"
+data "aws_eks_cluster_auth" "oneapp_auth" {
+  name = "oneapp_auth"
 }
 
 
@@ -32,25 +32,25 @@ provider "aws" {
 
 provider "helm" {
     kubernetes {
-       #host                   = data.aws_eks_cluster.demo.endpoint
-      # cluster_ca_certificate = base64decode(data.aws_eks_cluster.demo.certificate_authority[0].data)
-       #token                  = data.aws_eks_cluster_auth.demo_auth.token
+       #host                   = data.aws_eks_cluster.oneapp.endpoint
+      # cluster_ca_certificate = base64decode(data.aws_eks_cluster.oneapp.certificate_authority[0].data)
+       #token                  = data.aws_eks_cluster_auth.oneapp_auth.token
       config_path = "~/.kube/config"
     }
 }
 
 provider "kubernetes" {
-  #host                   = data.aws_eks_cluster.demo.endpoint
- # cluster_ca_certificate = base64decode(data.aws_eks_cluster.demo.certificate_authority[0].data)
-  #token                  = data.aws_eks_cluster_auth.demo_auth.token
+  #host                   = data.aws_eks_cluster.oneapp.endpoint
+ # cluster_ca_certificate = base64decode(data.aws_eks_cluster.oneapp.certificate_authority[0].data)
+  #token                  = data.aws_eks_cluster_auth.oneapp_auth.token
  #  version          = "2.16.1"
   config_path = "~/.kube/config"
 }
 
 provider "kubectl" {
    load_config_file = false
-   host                   = data.aws_eks_cluster.demo.endpoint
-   cluster_ca_certificate = base64decode(data.aws_eks_cluster.demo.certificate_authority[0].data)
-   token                  = data.aws_eks_cluster_auth.demo_auth.token
+   host                   = data.aws_eks_cluster.oneapp.endpoint
+   cluster_ca_certificate = base64decode(data.aws_eks_cluster.oneapp.certificate_authority[0].data)
+   token                  = data.aws_eks_cluster_auth.oneapp_auth.token
     config_path = "~/.kube/config"
 }

@@ -17,7 +17,7 @@ pipeline {
             }
             steps {
                 script {
-                    dir('eks-cluster') {
+                    dir('terraform-infra-for-cluster') {
                         sh "terraform init"
                         sh "terraform apply -auto-approve"
                     }
@@ -31,7 +31,7 @@ pipeline {
             }
             steps {
                 script {
-                    dir('eks-cluster') {
+                    dir('terraform-infra-for-cluster') {
                         sh "terraform destroy -auto-approve"
                     }
                 }
@@ -39,4 +39,3 @@ pipeline {
         }
     }
 }
-
